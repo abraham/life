@@ -1,15 +1,13 @@
-var camera, controls, scene, renderer, ws;
+var camera, controls, scene, grid, renderer, ws;
 
 var gridOptions = {
   layers: 10,
   color: 0x0000ff
 };
 
-function renderScene(cells) {
-  console.log('Initing');
-
+function createScene() {
   // define
-  scene = new THREE.Scene();
+  var scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 1000);
   renderer = new THREE.WebGLRenderer({ alpha: true });
 
@@ -24,15 +22,13 @@ function renderScene(cells) {
   // add
   document.body.appendChild(renderer.domElement);
   scene.add(cube);
-  gridOptions['cells'] = cells;
-  scene.add(createAGrid(gridOptions));
 
   controls = new THREE.OrbitControls( camera, renderer.domElement );
   controls.enableDamping = true;
   controls.dampingFactor = 0.25;
   controls.enableZoom = false;
 
-  console.log('Inited');
+  return scene;
 }
 
 function animate() {
@@ -47,26 +43,7 @@ function render(){
 }
 
 function createAGrid(opts) {
-  var config = opts || {
-    layers: 100,
-    color: 0xDD006C
-  };
-  var layers = config.layers + 1;
-
-  var material = new THREE.LineBasicMaterial({
-    color: config.color,
-    opacity: 0.8,
-    linewidth: 2
-  });
-
-  var gridObject = new THREE.Object3D(),
-    step = 1;
-
-    opts.cells.forEach(function(cell) {
-      gridObject.add(cell);
-    });
-
-  return gridObject;
+  return new THREE.Object3D();
 }
 
 function push(msg) {
@@ -78,10 +55,10 @@ function onMessage(m) {
   var data = JSON.parse(m.data)
   console.log('Recieved message', m);
   if (data.result === 'coordinates') {
-    if (document.getElementsByTagName('canvas').length > 0) {
-      document.getElementsByTagName('canvas')[0].remove();
-    }
-    renderScene(processCell(data.data))
+    var cells = processCell(data.data);
+    cells.forEach(function(cell) {
+      grid.add(cell);
+    });
     animate();
     push({action: 'tick'});
   }
@@ -119,7 +96,6 @@ function createCell(key) {
 
 function connectToSocket(openCallback) {
   ws = new WebSocket('ws://' + window.location.host + '/live');
-  // ws.onopen = openCallback;
   ws.onmessage = onMessage;
   ws.onclose = function()  { console.log('websocket closed'); }
 }
@@ -129,5 +105,8 @@ function requestCells() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+  scene = createScene();
+  grid = createAGrid(gridOptions);
+  scene.add(grid);
   connectToSocket(requestCells);
 });
