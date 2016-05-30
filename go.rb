@@ -22,11 +22,11 @@ get '/live' do
       end
 
       ws.onmessage do |msg|
+        puts 'msg', msg
         begin
           data = JSON.parse msg
           action = data['action']
           if action == 'start'
-            puts 'action = start'
             push result: 'Starting ticks'
             space = Space.new(layers: data['layers'].to_i || 13,
                               fill_percent: data['fillPercent'] || 75)
@@ -35,14 +35,14 @@ get '/live' do
             set_space ws, space
             push result: 'coordinates', data: space.cells
           elsif action == 'tick'
-            puts 'tick'
             space = get_space ws
-            space.future
-            push result: 'coordinates', data: space.cells
+            if space
+              space.future
+              push result: 'coordinates', data: space.cells
+            end
           elsif action == 'stop'
             index = settings.sockets.index(ws)
-            settings.spaces.delete_at(index)
-            settings.sockets.delete(ws)
+            settings.spaces.delete_at(index) if index
           else
             push error: 'Unknown command'
           end
@@ -69,12 +69,12 @@ private
 
 def get_space(ws)
   index = settings.sockets.index(ws)
-  settings.spaces[index]
+  settings.spaces[index] if index
 end
 
 def set_space(ws, space)
   index = settings.sockets.index(ws)
-  settings.spaces[index] = space
+  settings.spaces[index] = space if index
 end
 
 def json(msg)

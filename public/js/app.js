@@ -16,11 +16,10 @@ function createScene() {
   var cube = new THREE.Mesh( geometry, material );
 
   // configure
-  camera.position.z = 25;
   renderer.setSize(window.innerWidth - 100, window.innerHeight - 100);
 
   // add
-  document.body.appendChild(renderer.domElement);
+  document.getElementById('canvas').appendChild(renderer.domElement);
   scene.add(cube);
 
   controls = new THREE.OrbitControls( camera, renderer.domElement );
@@ -51,20 +50,30 @@ function push(msg) {
   ws.send(JSON.stringify(msg));
 }
 
+function clearScene() {
+  scene.children[1].children = [];
+}
+
 function onMessage(m) {
   var data = JSON.parse(m.data)
   console.log('Recieved message', m);
   if (data.result === 'coordinates') {
-    scene.children[1].children = [];
+    clearScene();
     var cells = processCell(data.data);
     cells.forEach(function(cell) {
       grid.add(cell);
     });
     animate();
     setTimeout(function() {
-      push({action: 'tick'});
+      if (!isPaused()) {
+        push({action: 'tick'});
+      }
     }, 500)
   }
+}
+
+function isPaused() {
+  return document.getElementById('pause').active;
 }
 
 function processCell(coordinates) {
@@ -103,10 +112,51 @@ function connectToSocket(openCallback) {
   ws.onclose = function()  { console.log('websocket closed'); }
 }
 
-function requestCells() {
-  push({action: 'start', layers: 5, fillPercent: 45});
+function requestCells(config) {
+  push({action: 'start', layers: config.layers, fillPercent: config.fillPercent});
 }
 
+function postionCamera(position) {
+  camera.position.z = position;
+}
+
+function getConfig() {
+  var layers = document.getElementById('layers');
+  var fillPercent = document.getElementById('fill-percent');
+  return {
+    layers: layers.value,
+    fillPercent: fillPercent.value
+  }
+}
+
+function toggleLife() {
+  var start = document.getElementById('start');
+  var pause = document.getElementById('pause');
+  if (start.active) { // .active is the previous value as button transition has not happend yet
+    push({action: 'stop'})
+    start.textContent = 'Start';
+    start.classList.remove('red');
+    start.classList.add('green');
+    pause.disabled = true;
+    pause.active = false;
+  } else {
+    var config = getConfig();
+    clearScene();
+    postionCamera(config.layers * 2.5)
+    requestCells(config);
+    start.textContent = 'Stop';
+    start.classList.remove('green');
+    start.classList.add('red');
+    pause.disabled = false;
+  }
+}
+
+function togglePause() {
+  var pause = document.getElementById('pause');
+  if (pause.active) { // .active is the previous value as button transition has not happend yet
+    push({action: 'tick'})
+  }
+}
 
 document.addEventListener("DOMContentLoaded", function() {
   scene = createScene();
@@ -114,8 +164,6 @@ document.addEventListener("DOMContentLoaded", function() {
   scene.add(grid);
   connectToSocket(requestCells);
 
-  document.getElementById('start').addEventListener('click', function() {
-    requestCells();
-    document.getElementById('start').remove();
-  })
+  document.getElementById('start').addEventListener('click', toggleLife);
+  document.getElementById('pause').addEventListener('click', togglePause);
 });

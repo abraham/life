@@ -1,8 +1,44 @@
 body {
   margin: 0px;
   padding: 0px;
-  text-align: center;
 }
+
 h1 {
   text-align: center;
+}
+
+#canvas {
+  text-align: center;
+}
+
+#config {
+  text-align: center;
+  margin: 0 auto;
+  width: 60%;
+}
+
+#config > div > div {
+  display: inline-block;;
+  vertical-align: middle;
+  text-align: center;
+  width: 33%;
+}
+
+#config > div:last-of-type {
+  padding: 10px;
+}
+
+.label {
+  text-align: left;
+  margin: 15px;
+}
+
+paper-button.green {
+  background-color: #388E3C;
+  color: white;
+}
+
+paper-button.red {
+  background-color: #D32F2F;
+  color: white;
 }
