@@ -4,7 +4,7 @@ Life
 In 3D!!!
 --------
 
-This is a prototype visualization of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) represented in 3D. We built this at [Bendyworks](https://bendyworks.com) during our regular professional development time.
+This is a prototype visualization of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) represented in 3D. We built this at [Bendyworks](https://bendyworks.com) during our regular professional development time. [Demo](https://www.youtube.com/watch?v=_hewWDDvkMQ)
 
 (_BTW we are [hiring](https://bendyworks.com/careers)_)
 
@@ -21,5 +21,5 @@ Getting started
 Terms
 -----
 
- * `layers` - Think of the 3D space as an onion and layers is the number of layers to simulate from the core square.
- * `fill percent` - The likelihood that any individual cell will start out alive, 100 being always alive.
+ * `layers` - Think of the 3D space as an onion and this is the number of layers to simulate out from the center square.
+ * `fill percent` - The likelihood that any individual cell will start in an alive state with 100 being always alive.
