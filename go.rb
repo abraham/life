@@ -8,6 +8,7 @@ require_relative 'lib/cell'
 
 set :server, 'thin'
 set :sockets, []
+set :spaces, []
 
 get '/' do
   erb :index
@@ -24,13 +25,25 @@ get '/live' do
       ws.onmessage do |msg|
         begin
           data = JSON.parse msg
-          if data['action'] == 'start'
+          action = data['action']
+          if action == 'start'
+            puts 'action = start'
             push result: 'Starting ticks'
             space = Space.new(layers: data['layers'].to_i || 13,
                               fill_percent: data['fillPercent'] || 75)
 
             space.future
+            set_space ws, space
             push result: 'coordinates', data: space.cells
+          elsif action == 'tick'
+            puts 'tick'
+            space = get_space ws
+            space.future
+            push result: 'coordinates', data: space.cells
+          elsif action == 'stop'
+            index = settings.sockets.index(ws)
+            settings.spaces.delete_at(index)
+            settings.sockets.delete(ws)
           else
             push error: 'Unknown command'
           end
@@ -41,6 +54,8 @@ get '/live' do
 
       ws.onclose do
         warn('websocket closed')
+        index = settings.sockets.index(ws)
+        settings.spaces.delete_at(index) if index
         settings.sockets.delete(ws)
       end
     end
@@ -51,6 +66,17 @@ get '/live' do
 end
 
 private
+
+
+def get_space(ws)
+  index = settings.sockets.index(ws)
+  settings.spaces[index]
+end
+
+def set_space(ws, space)
+  index = settings.sockets.index(ws)
+  settings.spaces[index] = space
+end
 
 def json(msg)
   content_type 'application/json'

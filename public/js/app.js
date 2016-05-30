@@ -83,6 +83,7 @@ function onMessage(m) {
     }
     renderScene(processCell(data.data))
     animate();
+    push({action: 'tick'});
   }
 }
 
@@ -118,7 +119,7 @@ function createCell(key) {
 
 function connectToSocket(openCallback) {
   ws = new WebSocket('ws://' + window.location.host + '/live');
-  ws.onopen = openCallback;
+  // ws.onopen = openCallback;
   ws.onmessage = onMessage;
   ws.onclose = function()  { console.log('websocket closed'); }
 }
