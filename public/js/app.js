@@ -55,12 +55,15 @@ function onMessage(m) {
   var data = JSON.parse(m.data)
   console.log('Recieved message', m);
   if (data.result === 'coordinates') {
+    scene.children[1].children = [];
     var cells = processCell(data.data);
     cells.forEach(function(cell) {
       grid.add(cell);
     });
     animate();
-    push({action: 'tick'});
+    setTimeout(function() {
+      push({action: 'tick'});
+    }, 500)
   }
 }
 
@@ -101,12 +104,18 @@ function connectToSocket(openCallback) {
 }
 
 function requestCells() {
-  push({action: 'start', layers: 10, fillPercent: 60});
+  push({action: 'start', layers: 5, fillPercent: 35});
 }
+
 
 document.addEventListener("DOMContentLoaded", function() {
   scene = createScene();
   grid = createAGrid(gridOptions);
   scene.add(grid);
   connectToSocket(requestCells);
+
+  document.getElementById('start').addEventListener('click', function() {
+    requestCells();
+    document.getElementById('start').remove();
+  })
 });
