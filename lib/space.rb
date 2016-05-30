@@ -3,6 +3,7 @@ require_relative 'cell'
 
 class Space
   LIKELIHOOD_OF_STARTING_ALIVE = 75
+  DEFAULT_LAYERS = 13
   STAYIN_ALIVE = [4].freeze
   GOOD_NEIGHBOR_COUNT = [5, 6, 7].freeze
   X = 0
@@ -11,9 +12,10 @@ class Space
 
   attr_reader :cells
 
-  def initialize(layers: 13)
+  def initialize(layers: DEFAULT_LAYERS, fill_percent: LIKELIHOOD_OF_STARTING_ALIVE)
     @cells = {}
     @layers = layers
+    @fill_percent = fill_percent
     create_primary_cell
     setup
   end
@@ -23,7 +25,7 @@ class Space
   end
 
   def randomish_state
-    rand(100) <= LIKELIHOOD_OF_STARTING_ALIVE ? :alive : :dead
+    rand(100) >= @fill_percent ? :alive : :dead
   end
 
   def setup

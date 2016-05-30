@@ -66,25 +66,6 @@ function createAGrid(opts) {
       gridObject.add(cell);
     });
 
-  // for (var x = -layers; x <= layers; x += step) {
-  //   for (var y = -layers; y <= layers; y += step) {
-  //     for (var z = -layers; z <= layers; z += step) {
-  //       // console.log('x', i, 'y', layers, 'step', step, 'height', layers);
-  //       // [{"x:y:z": true}, {"x:y:z": false}]
-  //
-  //       if ((Math.floor(Math.random() * 100) + 1) > 75) {
-  //         var geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-  //         var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  //         var cube = new THREE.Mesh( geometry, material );
-  //         cube.position.x = x;
-  //         cube.position.y = y;
-  //         cube.position.z = z;
-  //         gridObject.add(cube)
-  //       }
-  //     }
-  //   }
-  // }
-
   return gridObject;
 }
 
@@ -97,9 +78,11 @@ function onMessage(m) {
   var data = JSON.parse(m.data)
   console.log('Recieved message', m);
   if (data.result === 'coordinates') {
+    if (document.getElementsByTagName('canvas').length > 0) {
+      document.getElementsByTagName('canvas')[0].remove();
+    }
     renderScene(processCell(data.data))
     animate();
-    // var gridObject = createAGrid(gridOptions);
   }
 }
 
@@ -108,7 +91,6 @@ function processCell(coordinates) {
   for (var key in coordinates) {
     if (coordinates[key] === 'true') {
       cells.push(createCell(key, coordinates[key]));
-      // gridObject.add(cell);
     }
   }
   return cells;
@@ -142,16 +124,9 @@ function connectToSocket(openCallback) {
 }
 
 function requestCells() {
-  push({action: 'start'});
-}
-
-function onOpen() {
-  console.log('websocket opened');
+  push({action: 'start', layers: 10, fillPercent: 60});
 }
 
 document.addEventListener("DOMContentLoaded", function() {
   connectToSocket(requestCells);
-
-  // init();
-  // animate();
 });

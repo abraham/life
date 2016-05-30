@@ -26,7 +26,8 @@ get '/live' do
           data = JSON.parse msg
           if data['action'] == 'start'
             push result: 'Starting ticks'
-            space = Space.new(layers: 3)
+            space = Space.new(layers: data['layers'].to_i || 13,
+                              fill_percent: data['fillPercent'] || 75)
 
             space.future
             push result: 'coordinates', data: space.cells
