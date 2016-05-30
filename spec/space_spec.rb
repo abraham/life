@@ -64,7 +64,7 @@ describe Space do
       expect(space.send(:suggest_state, 0, true)).to eq(:dead)
       expect(space.send(:suggest_state, 1, true)).to eq(:dead)
       expect(space.send(:suggest_state, 2, true)).to eq(:dead)
-      expect(space.send(:suggest_state, 3, true)).to eq(:dead)
+      expect(space.send(:suggest_state, 3, true)).to eq(:alive)
       expect(space.send(:suggest_state, 4, false)).to eq(:dead)
       expect(space.send(:suggest_state, 4, true)).to eq(:alive)
       expect(space.send(:suggest_state, 5, true)).to eq(:alive)

@@ -1,4 +1,3 @@
-require 'pry'
 require 'sinatra'
 require 'sinatra-websocket'
 require 'json'

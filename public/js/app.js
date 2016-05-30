@@ -104,7 +104,7 @@ function connectToSocket(openCallback) {
 }
 
 function requestCells() {
-  push({action: 'start', layers: 5, fillPercent: 35});
+  push({action: 'start', layers: 5, fillPercent: 45});
 }
 
 

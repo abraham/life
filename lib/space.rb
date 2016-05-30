@@ -85,7 +85,7 @@ class Space
 
   def suggest_state(living_neighbors, alive)
     if alive
-      if living_neighbors <= 1 || living_neighbors >= 8
+      if living_neighbors <= 2 || living_neighbors >= 8
         :dead
       else
         :alive
