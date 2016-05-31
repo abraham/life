@@ -6,9 +6,9 @@ var gridOptions = {
 };
 
 function createCenterCell() {
-  var geometry = new THREE.BoxGeometry(1, 1, 1);
-  var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  return new THREE.Mesh( geometry, material );
+  var geometry = new THREE.SphereGeometry(0.25, 16, 16);
+  var material = new THREE.MeshBasicMaterial({ color: 0xF44336 });
+  return new THREE.Mesh(geometry, material);
 }
 
 function createScene() {
@@ -22,12 +22,10 @@ function createScene() {
 
   // add
   document.getElementById('canvas').appendChild(renderer.domElement);
-  scene.add(createCenterCell());
 
-  controls = new THREE.OrbitControls( camera, renderer.domElement );
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.25;
-  controls.enableZoom = false;
 
   return scene;
 }
@@ -38,7 +36,7 @@ function animate() {
   render();
 }
 
-function render(){
+function render() {
   requestAnimationFrame(render);
   renderer.render(scene, camera);
 }
@@ -162,6 +160,7 @@ function togglePause() {
 
 document.addEventListener("DOMContentLoaded", function() {
   scene = createScene();
+  scene.add(createCenterCell());
   grid = createAGrid(gridOptions);
   scene.add(grid);
   connectToSocket(requestCells);
