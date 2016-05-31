@@ -5,22 +5,24 @@ var gridOptions = {
   color: 0x0000ff
 };
 
+function createCenterCell() {
+  var geometry = new THREE.BoxGeometry(1, 1, 1);
+  var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+  return new THREE.Mesh( geometry, material );
+}
+
 function createScene() {
   // define
   var scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 1000);
   renderer = new THREE.WebGLRenderer({ alpha: true });
 
-  var geometry = new THREE.BoxGeometry(1, 1, 1);
-  var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  var cube = new THREE.Mesh( geometry, material );
-
   // configure
   renderer.setSize(window.innerWidth - 100, window.innerHeight - 100);
 
   // add
   document.getElementById('canvas').appendChild(renderer.domElement);
-  scene.add(cube);
+  scene.add(createCenterCell());
 
   controls = new THREE.OrbitControls( camera, renderer.domElement );
   controls.enableDamping = true;
