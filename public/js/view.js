@@ -1,17 +1,16 @@
 BGL.view = (function(THREE) {
-  // 'use strict';
+  'use strict';
 
   var scene, grid, _renderer;
 
   function createRenderer() {
     _renderer = new THREE.WebGLRenderer({ alpha: true });
     _renderer.setSize(window.innerWidth - 100, window.innerHeight - 100);
-    appendToCanvas(_renderer.domElement);
-    return _renderer;
   }
 
-  function appendToCanvas(element) {
-    document.getElementById('canvas').appendChild(element);
+  function addRenderer() {
+    createRenderer();
+    document.getElementById('canvas').appendChild(_renderer.domElement);
   }
 
   function getValue(id, defaultValue) {
@@ -74,18 +73,7 @@ BGL.view = (function(THREE) {
   }
 
   function calculateCameraPosition() {
-    return getValue('layers', 0).layers * 2.5;
-  }
-
-  function animate() {
-    requestAnimationFrame(renderScene);
-    BGL.controls.update();
-    renderScene();
-  }
-
-  function renderScene() {
-    requestAnimationFrame(renderScene);
-    _renderer.render(scene, BGL.controls.camera());
+    return getValue('layers', 0) * 2.5;
   }
 
   function addToGrid(items) {
@@ -96,20 +84,27 @@ BGL.view = (function(THREE) {
 
   function init() {
     scene = new THREE.Scene();
-    // BGL.controls.create();
-    createRenderer();
+    BGL.controls.createCamera();
+    addRenderer();
     scene.add(BGL.cells.createCenter());
     grid = new THREE.Object3D();
     scene.add(grid);
-    // animate();
+    BGL.controls.positionCamera(calculateCameraPosition());
+    BGL.controls.create();
+    renderScene();
   }
 
   function renderer() {
     return _renderer || createRenderer();
   }
 
+  function renderScene() {
+    requestAnimationFrame(renderScene);
+    BGL.controls.update();
+    _renderer.render(scene, BGL.controls.camera());
+  }
+
   return {
-    animate: animate,
     clearScene: clearScene,
     getSettings: formData,
     init: init,
@@ -117,6 +112,7 @@ BGL.view = (function(THREE) {
     prepareLife: prepareLife,
     stopLife: stopLife,
     renderer: renderer,
-    addToGrid: addToGrid
+    addToGrid: addToGrid,
+    renderScene: renderScene
   };
 }(THREE));

@@ -1,36 +1,37 @@
-BGL.controls = (function() {
+BGL.controls = (function(THREE) {
   'use strict';
-  var camera;
-  var controls;
+  var _camera;
+  var _controls;
 
   var positionCamera = function(position) {
-    camera.position.z = position;
+    _camera.position.z = position;
   };
 
   var createCamera = function() {
     var zoom = window.innerWidth / window.innerHeight;
-    return new THREE.PerspectiveCamera(90, zoom, 1, 1000);
+    _camera = new THREE.PerspectiveCamera(90, zoom, 1, 1000);
+    return _camera;
   };
 
   var create = function() {
-    camera = createCamera();
-    controls = new THREE.OrbitControls(camera, BGL.renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.25;
+    _controls = new THREE.OrbitControls(_camera, BGL.view.renderer().domElement);
+    _controls.enableDamping = true;
+    _controls.dampingFactor = 0.25;
   };
 
   var update = function() {
-    controls.update();
+    _controls.update();
   };
 
   var getCamera = function() {
-    return camera;
+    return _camera;
   };
 
   return {
     create: create,
     update: update,
     positionCamera: positionCamera,
-    camera: getCamera
+    camera: getCamera,
+    createCamera: createCamera
   };
-}());
+}(THREE));
