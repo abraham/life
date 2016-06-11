@@ -91,7 +91,6 @@ BGL.view = (function(THREE) {
     scene.add(grid);
     BGL.controls.positionCamera(calculateCameraPosition());
     BGL.controls.create();
-    renderScene();
   }
 
   function renderer() {

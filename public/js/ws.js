@@ -20,7 +20,6 @@ BGL.ws = (function() {
   var onMessage = function(message) {
     // TODO: catch invalid JSON
     var data = JSON.parse(message.data);
-    console.log('Recieved message', message);
     callbacks.forEach(function(callback) {
       callback(data);
     });
