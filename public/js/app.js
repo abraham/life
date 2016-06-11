@@ -1,7 +1,7 @@
 var BGL = (function(THREE){
   'use strict';
 
-  var scene, grid, renderer, ws,
+  var scene, grid, renderer,
     gridOptions = {
       layers: 10,
       color: 0x0000ff
@@ -10,16 +10,18 @@ var BGL = (function(THREE){
   var createScene = function() {
     var scene = new THREE.Scene();
     BGL.renderer = new THREE.WebGLRenderer({ alpha: true });
-
     BGL.renderer.setSize(window.innerWidth - 100, window.innerHeight - 100);
-
     document.getElementById('canvas').appendChild(BGL.renderer.domElement);
-
     return scene;
+  };
+
+  var createAGrid = function (opts) {
+    return new THREE.Object3D();
   };
 
   return {
     createScene: createScene,
+    createAGrid: createAGrid,
     gridOptions: gridOptions,
     grid: grid,
     renderer: renderer
@@ -37,22 +39,11 @@ function render() {
   BGL.renderer.render(scene, BGL.controls.camera());
 }
 
-function createAGrid(opts) {
-  return new THREE.Object3D();
-}
-
-function push(msg) {
-  console.log('pushing', msg);
-  ws.send(JSON.stringify(msg));
-}
-
 function clearScene() {
   scene.children[1].children = [];
 }
 
-function onMessage(m) {
-  var data = JSON.parse(m.data);
-  console.log('Recieved message', m);
+function onMessage(data) {
   if (data.result === 'coordinates') {
     clearScene();
     var cells = BGL.cells.processCell(data.data);
@@ -62,7 +53,7 @@ function onMessage(m) {
     animate();
     setTimeout(function() {
       if (!isPaused()) {
-        push({action: 'tick'});
+        BGL.ws.push({action: 'tick'});
       }
     }, 500);
   }
@@ -72,14 +63,8 @@ function isPaused() {
   return document.getElementById('pause').active;
 }
 
-function connectToSocket(openCallback) {
-  ws = new WebSocket('ws://' + window.location.host + '/live');
-  ws.onmessage = onMessage;
-  ws.onclose = function()  { console.log('websocket closed'); };
-}
-
 function requestCells(config) {
-  push({action: 'start', layers: config.layers, fillPercent: config.fillPercent});
+  BGL.ws.push({action: 'start', layers: config.layers, fillPercent: config.fillPercent});
 }
 
 function getConfig() {
@@ -95,7 +80,7 @@ function toggleLife() {
   var start = document.getElementById('start');
   var pause = document.getElementById('pause');
   if (start.active) { // .active is the previous value as button transition has not happend yet
-    push({action: 'stop'});
+    BGL.ws.push({action: 'stop'});
     start.textContent = 'Start';
     start.classList.remove('red');
     start.classList.add('green');
@@ -116,7 +101,7 @@ function toggleLife() {
 function togglePause() {
   var pause = document.getElementById('pause');
   if (pause.active) { // .active is the previous value as button transition has not happend yet
-    push({action: 'tick'});
+    BGL.ws.push({action: 'tick'});
   }
 }
 
@@ -124,9 +109,10 @@ document.addEventListener("DOMContentLoaded", function() {
   scene = BGL.createScene();
   BGL.controls.create();
   scene.add(BGL.cells.createCenter());
-  BGL.grid = createAGrid(BGL.gridOptions);
+  BGL.grid = BGL.createAGrid(BGL.gridOptions);
   scene.add(BGL.grid);
-  connectToSocket(requestCells);
+  BGL.ws.connect();
+  BGL.ws.setOnMessage(onMessage);
 
   document.getElementById('start').addEventListener('click', toggleLife);
   document.getElementById('pause').addEventListener('click', togglePause);
