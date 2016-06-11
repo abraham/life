@@ -1,19 +1,23 @@
 BGL.cells = (function(THREE){
   'use strict';
 
-  var processCell = function(coordinates) {
-    var cells = [];
+  var processCells = function(coordinates) {
+    var add = [];
+    var remove = [];
     for (var key in coordinates) {
       if (coordinates[key] === 'true') {
-        cells.push(create(key, coordinates[key]));
+        add.push([key, create(key, coordinates[key])]);
+      } else {
+        remove.push(key);
       }
     }
-    return cells;
+    return [add, remove];
   };
 
-  var build = function(cell) {
+  var create = function(key) {
+    var cell = parseCoordinates(key);
     var geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-    var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    var material = new THREE.MeshBasicMaterial({ color: 0x9498a1 });
     var cube = new THREE.Mesh( geometry, material );
     cube.position.x = cell.x;
     cube.position.y = cell.y;
@@ -21,15 +25,14 @@ BGL.cells = (function(THREE){
     return cube;
   };
 
-  var create = function(key) {
+  function parseCoordinates(key) {
     var indexes = key.split(':');
-    var coordinates = {
+    return {
       x: Number(indexes[0]),
       y: Number(indexes[1]),
       z: Number(indexes[2])
     };
-    return build(coordinates);
-  };
+  }
 
   var createCenter = function() {
     var geometry = new THREE.SphereGeometry(0.25, 16, 16);
@@ -38,7 +41,7 @@ BGL.cells = (function(THREE){
   };
 
   return {
-    processCell: processCell,
+    processCells: processCells,
     createCenter: createCenter
   };
 }(THREE));

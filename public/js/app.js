@@ -8,11 +8,9 @@ var BGL = (function(){
   }
 
   function renderTick(data) {
-    // TODO: remove
-    BGL.view.clearScene();
-
-    var cells = BGL.cells.processCell(data);
-    BGL.view.addToGrid(cells);
+    var results = BGL.cells.processCells(data);
+    BGL.view.addToGrid(results[0]);
+    BGL.view.removeFromGrid(results[1]);
 
     BGL.view.renderScene();
     setTimeout(requestTick, 500);
@@ -29,6 +27,7 @@ var BGL = (function(){
   }
 
   function stateTransition(event) {
+    // TODO: don't transition on focus
     if (event.target.active) {
       startLife();
     } else {

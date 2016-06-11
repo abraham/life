@@ -22,7 +22,7 @@ get '/live' do
       end
 
       ws.onmessage do |msg|
-        puts 'msg', msg
+        puts "onmessage #{msg}"
         begin
           data = JSON.parse msg
           action = data['action']
@@ -32,13 +32,15 @@ get '/live' do
                               fill_percent: data['fillPercent'] || 75)
 
             space.future
+            space.tick
             set_space ws, space
             push result: 'coordinates', data: space.cells
           elsif action == 'tick'
             space = get_space ws
             if space
               space.future
-              push result: 'coordinates', data: space.cells
+              space.tick
+              push result: 'coordinates', data: space.changed_cells
             end
           elsif action == 'stop'
             index = settings.sockets.index(ws)

@@ -17,6 +17,8 @@ class Cell
   def be(state)
     die if state == :dead
     reanimate if state == :alive
+
+    @future != @state
   end
 
   def die
@@ -30,9 +32,11 @@ class Cell
   end
 
   def tick
-    @state = @future if @future
-    @future = nil
-    self
+    if @future
+      @state = @future
+      @future = nil
+      self
+    end
   end
 
   def coordinates_key

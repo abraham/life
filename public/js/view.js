@@ -1,7 +1,8 @@
 BGL.view = (function(THREE) {
   'use strict';
 
-  var scene, grid, _renderer;
+  var scene, grid, _renderer,
+    _cells = {};
 
   function createRenderer() {
     _renderer = new THREE.WebGLRenderer({ alpha: true });
@@ -78,7 +79,16 @@ BGL.view = (function(THREE) {
 
   function addToGrid(items) {
     items.forEach(function(item) {
-      grid.add(item);
+      // item = [key, cube]
+      grid.add(item[1]);
+      _cells[item[0]] = item[1];
+    });
+  }
+
+  function removeFromGrid(items) {
+    items.forEach(function(key) {
+      grid.remove(_cells[key]);
+      delete _cells[key];
     });
   }
 
@@ -112,6 +122,7 @@ BGL.view = (function(THREE) {
     stopLife: stopLife,
     renderer: renderer,
     addToGrid: addToGrid,
+    removeFromGrid: removeFromGrid,
     renderScene: renderScene
   };
 }(THREE));
