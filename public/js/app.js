@@ -1,7 +1,7 @@
 var BGL = (function(THREE){
   'use strict';
 
-  var controls, scene, grid, renderer, ws,
+  var scene, grid, renderer, ws,
     gridOptions = {
       layers: 10,
       color: 0x0000ff
@@ -15,43 +15,51 @@ var BGL = (function(THREE){
 
     document.getElementById('canvas').appendChild(BGL.renderer.domElement);
 
-    BGL.controls = new THREE.OrbitControls(BGL.camera.instance(), BGL.renderer.domElement);
-    BGL.controls.enableDamping = true;
-    BGL.controls.dampingFactor = 0.25;
-
     return scene;
   };
 
   return {
     createScene: createScene,
-    controls: controls,
     gridOptions: gridOptions,
     grid: grid,
     renderer: renderer
   };
 }(THREE));
 
-BGL.camera = (function() {
+BGL.controls = (function() {
   'use strict';
-  var instance;
+  var camera;
+  var controls;
 
-  var position = function(position) {
-    instance.position.z = position;
+  var positionCamera = function(position) {
+    camera.position.z = position;
+  };
+
+  var createCamera = function() {
+    var zoom = window.innerWidth / window.innerHeight;
+    return new THREE.PerspectiveCamera(90, zoom, 1, 1000);
   };
 
   var create = function() {
-    var zoom = window.innerWidth / window.innerHeight;
-    instance = new THREE.PerspectiveCamera(90, zoom, 1, 1000);
-    return instance;
+    camera = createCamera();
+    controls = new THREE.OrbitControls(camera, BGL.renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.25;
   };
 
-  var get = function() {
-    return instance || create();
+  var update = function() {
+    controls.update();
+  };
+
+  var getCamera = function() {
+    return camera;
   };
 
   return {
-    instance: get,
-    position: position
+    create: create,
+    update: update,
+    positionCamera: positionCamera,
+    camera: getCamera
   };
 }());
 
@@ -110,7 +118,7 @@ function animate() {
 
 function render() {
   requestAnimationFrame(render);
-  BGL.renderer.render(scene, BGL.camera.instance());
+  BGL.renderer.render(scene, BGL.controls.camera());
 }
 
 function createAGrid(opts) {
@@ -180,7 +188,7 @@ function toggleLife() {
   } else {
     var config = getConfig();
     clearScene();
-    BGL.camera.position(config.layers * 2.5);
+    BGL.controls.positionCamera(config.layers * 2.5);
     requestCells(config);
     start.textContent = 'Stop';
     start.classList.remove('green');
@@ -198,6 +206,7 @@ function togglePause() {
 
 document.addEventListener("DOMContentLoaded", function() {
   scene = BGL.createScene();
+  BGL.controls.create();
   scene.add(BGL.cells.createCenter());
   BGL.grid = createAGrid(BGL.gridOptions);
   scene.add(BGL.grid);
