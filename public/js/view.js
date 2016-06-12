@@ -23,6 +23,11 @@ BGL.view = (function(THREE) {
     return pauseButton && pauseButton.active;
   }
 
+  function isStarted() {
+    var startButton = document.getElementById('start');
+    return startButton && startButton.active;
+  }
+
   function formData() {
     return {
       layers: getValue('layers', 0),
@@ -114,15 +119,16 @@ BGL.view = (function(THREE) {
   }
 
   return {
+    addToGrid: addToGrid,
     clearScene: clearScene,
     getSettings: formData,
     init: init,
     isPaused: isPaused,
+    isStarted: isStarted,
     prepareLife: prepareLife,
-    stopLife: stopLife,
-    renderer: renderer,
-    addToGrid: addToGrid,
     removeFromGrid: removeFromGrid,
-    renderScene: renderScene
+    renderer: renderer,
+    renderScene: renderScene,
+    stopLife: stopLife
   };
 }(THREE));

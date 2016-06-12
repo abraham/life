@@ -2,6 +2,7 @@ var BGL = (function(){
   'use strict';
 
   function onMessage(data) {
+    console.log('onMessage', data.result);
     if (data.result === 'coordinates') {
       renderTick(data.data);
     }
@@ -13,7 +14,7 @@ var BGL = (function(){
     BGL.view.removeFromGrid(results[1]);
 
     BGL.view.renderScene();
-    setTimeout(requestTick, 500);
+    setTimeout(requestTick, 1 * 1000);
   }
 
   function startLife() {
@@ -36,7 +37,7 @@ var BGL = (function(){
   }
 
   function pauseTransition(event) {
-    if (!event.target.active) {
+    if (!BGL.view.isPaused() && !BGL.view.isStarted()) {
       requestTick();
     }
   }
@@ -59,11 +60,11 @@ var BGL = (function(){
   return {
     stateTransition: stateTransition,
     pauseTransition: pauseTransition,
-    onMessage: onMessage
+    onMessage: onMessage,
+    requestTick: requestTick
   };
 
 }());
-
 
 document.addEventListener("DOMContentLoaded", function() {
   BGL.view.init();
