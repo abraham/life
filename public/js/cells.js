@@ -17,7 +17,7 @@ BGL.cells = (function(THREE){
   var create = function(key) {
     var cell = parseCoordinates(key);
     var geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-    var material = new THREE.MeshBasicMaterial({ color: 0x1976D2 });
+    var material = new THREE.MeshBasicMaterial({ color: 0x2196F3 });
     var cube = new THREE.Mesh( geometry, material );
     cube.position.x = cell.x;
     cube.position.y = cell.y;
@@ -36,7 +36,7 @@ BGL.cells = (function(THREE){
 
   var createCenter = function() {
     var geometry = new THREE.SphereGeometry(0.25, 16, 16);
-    var material = new THREE.MeshBasicMaterial({ color: 0xF44336 });
+    var material = new THREE.MeshBasicMaterial({ color: 0x000000 });
     return new THREE.Mesh(geometry, material);
   };
 
