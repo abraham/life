@@ -113,6 +113,7 @@ BGL.view = (function(THREE) {
   }
 
   function renderScene() {
+    requestAnimationFrame(renderScene);
     BGL.controls.update();
     _renderer.render(scene, BGL.controls.camera());
   }
