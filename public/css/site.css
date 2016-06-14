@@ -1,3 +1,7 @@
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
 body {
   margin: 0px;
   padding: 0px;
@@ -41,4 +45,9 @@ paper-button.green {
 paper-button.red {
   background-color: #D32F2F;
   color: white;
+}
+
+paper-toolbar {
+  background-color: #2196F3 !important;
+  font-size: x-large;
 }

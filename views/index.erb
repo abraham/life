@@ -6,6 +6,8 @@
 
   <link rel='import' href='https://cdn.rawgit.com/download/polymer-cdn/1.2.3.2/lib/paper-button/paper-button.html'>
   <link rel='import' href='https://cdn.rawgit.com/download/polymer-cdn/1.2.3.2/lib/paper-slider/paper-slider.html'>
+  <link rel='import' href='https://cdn.rawgit.com/download/polymer-cdn/1.2.3.2/lib/paper-header-panel/paper-header-panel.html'>
+  <link rel='import' href='https://cdn.rawgit.com/download/polymer-cdn/1.2.3.2/lib/paper-toolbar/paper-toolbar.html'>
 
   <style is="custom-style">
     paper-slider.blue {
@@ -22,10 +24,16 @@
   <script src='/js/controls.js'></script>
   <script src='/js/ws.js'></script>
   <script src='/js/view.js'></script>
+
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 </head>
 <body>
+  <paper-header-panel class="flex" mode="standard">
+    <paper-toolbar>
+      <div class="paper-header">The Bendy Game of Life</div>
+    </paper-toolbar>
+  </paper-header-panel>
 
-  <h1>The Bendy Game of Life</h1>
   <div id='config'>
     <div>
       <div>
