@@ -7,6 +7,14 @@
   <link rel='import' href='https://cdn.rawgit.com/download/polymer-cdn/1.2.3.2/lib/paper-button/paper-button.html'>
   <link rel='import' href='https://cdn.rawgit.com/download/polymer-cdn/1.2.3.2/lib/paper-slider/paper-slider.html'>
 
+  <style is="custom-style">
+    paper-slider.blue {
+      --paper-slider-knob-color: var(--paper-blue-a700);
+      --paper-slider-active-color: var(--paper-blue-a700);
+      --paper-slider-secondary-color: var(--paper-grey-600);
+    }
+  </style>
+
   <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r75/three.min.js'></script>
   <script src='http://threejs.org/examples/js/controls/OrbitControls.js'></script>
   <script src='/js/app.js'></script>
@@ -22,11 +30,11 @@
     <div>
       <div>
         <div class='label'>Size</div>
-        <paper-slider id='layers' pin value='5' min='1' max='15'></paper-slider>
+        <paper-slider id='layers' class='blue' pin value='5' min='1' max='15' secondary-progress='100'></paper-slider>
       </div>
       <div>
         <div class='label'>% of cells initially alive</div>
-        <paper-slider id='fill-percent' pin value='40' min='1' max='100'></paper-slider>
+        <paper-slider id='fill-percent' class='blue' pin value='40' min='1' max='100' secondary-progress='100'></paper-slider>
       </div>
     </div>
     <br>
