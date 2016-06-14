@@ -35,7 +35,7 @@ get '/live' do
             space.tick
             set_space ws, space
             # TODO: only send alive cells
-            push result: 'coordinates', data: space.cells
+            push result: 'coordinates', data: space.changed_cells
           elsif action == 'tick'
             space = get_space ws
             if space
