@@ -34,25 +34,28 @@
     </paper-toolbar>
   </paper-header-panel>
 
-  <div id='config'>
-    <div>
-      <div>
-        <div class='label'>Size</div>
-        <paper-slider id='layers' class='blue' pin value='5' min='1' max='15' secondary-progress='100'></paper-slider>
-      </div>
-      <div>
-        <div class='label'>% of cells initially alive</div>
-        <paper-slider id='fill-percent' class='blue' pin value='40' min='1' max='100' secondary-progress='100'></paper-slider>
-      </div>
-    </div>
-    <br>
-    <div>
-      <paper-button id='start' class='green' toggles raised>Start</paper-button>
-      <paper-button id='pause' class='' toggles raised disabled>Pause</paper-button>
-    </div>
-  </div>
+  <div class="container">
+    <div id='config'>
 
-  <div id='canvas'></div>
+        <div>
+          <div class='label'>Size</div>
+          <paper-slider id='layers' class='blue' pin value='5' min='1' max='15' secondary-progress='100'></paper-slider>
+        </div>
+
+        <div>
+          <div class='label'>% of cells initially alive</div>
+          <paper-slider id='fill-percent' class='blue' pin value='40' min='1' max='100' secondary-progress='100'></paper-slider>
+        </div>
+
+      <div class="buttons">
+        <paper-button id='start' class='green' toggles raised>Start</paper-button>
+        <paper-button id='pause' class='' toggles raised disabled>Pause</paper-button>
+      </div>
+
+    </div>
+
+    <div id='canvas'></div>
+  </div>
 
   <script>
     (function() {

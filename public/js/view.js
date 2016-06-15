@@ -6,7 +6,7 @@ BGL.view = (function(THREE) {
 
   function createRenderer() {
     _renderer = new THREE.WebGLRenderer({ alpha: true });
-    _renderer.setSize(window.innerWidth - 100, window.innerHeight - 100);
+    _renderer.setSize(window.innerWidth - 260, window.innerHeight - 100);
   }
 
   function addRenderer() {

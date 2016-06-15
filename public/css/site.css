@@ -1,8 +1,5 @@
-* {
-  font-family: 'Roboto', sans-serif;
-}
-
 body {
+  font-family: 'Roboto', sans-serif;
   margin: 0px;
   padding: 0px;
 }
@@ -11,25 +8,17 @@ h1 {
   text-align: center;
 }
 
-#canvas {
-  text-align: center;
+.container {
+  display: flex;
 }
 
-#config {
-  text-align: center;
-  margin: 0 auto;
-  width: 60%;
+.buttons {
+  display: flex;
+  justify-content: center;
 }
 
-#config > div > div {
-  display: inline-block;;
-  vertical-align: middle;
-  text-align: center;
-  width: 33%;
-}
-
-#config > div:last-of-type {
-  padding: 10px;
+#config > div {
+  padding: 15px;
 }
 
 .label {
