@@ -4,12 +4,13 @@ BGL.controls = (function(THREE) {
   var _controls;
 
   var positionCamera = function(position) {
-    _camera.position.z = position;
+    _camera.position.set(5, 5, position);// = position;
   };
 
   var createCamera = function() {
     var zoom = window.innerWidth / window.innerHeight;
     _camera = new THREE.PerspectiveCamera(90, zoom, 1, 1000);
+    _camera.position.set(30, 30, 120);
     return _camera;
   };
 

@@ -5,7 +5,7 @@ BGL.view = (function(THREE) {
     _cells = {};
 
   function createRenderer() {
-    _renderer = new THREE.WebGLRenderer({ alpha: true });
+    _renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     _renderer.setSize(window.innerWidth - 260, window.innerHeight - 100);
   }
 
@@ -97,6 +97,29 @@ BGL.view = (function(THREE) {
     });
   }
 
+  function buildAxes(length) {
+    var axes = new THREE.Object3D();
+
+    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(length, 0, 0), 0x9E9E9E));
+    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(- length, 0, 0), 0x9E9E9E));
+    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, length, 0), 0x9E9E9E));
+    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, - length, 0), 0x9E9E9E));
+    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, length), 0x9E9E9E));
+    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, - length), 0x9E9E9E));
+
+    return axes;
+  }
+
+  function buildAxis(src, dst, colorHex) {
+    var geom = new THREE.Geometry();
+    var mat = new THREE.LineBasicMaterial({ linewidth: 2, color: colorHex });
+
+    geom.vertices.push(src.clone());
+    geom.vertices.push(dst.clone());
+
+    return new THREE.Line(geom, mat, THREE.LinePieces);
+  }
+
   function init() {
     scene = new THREE.Scene();
     BGL.controls.createCamera();
@@ -104,6 +127,7 @@ BGL.view = (function(THREE) {
     scene.add(BGL.cells.createCenter());
     grid = new THREE.Object3D();
     scene.add(grid);
+    scene.add(buildAxes(getValue('layers', 0) * 2));
     BGL.controls.positionCamera(calculateCameraPosition());
     BGL.controls.create();
   }

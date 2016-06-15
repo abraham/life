@@ -35,7 +35,8 @@ BGL.cells = (function(THREE){
   }
 
   var createCenter = function() {
-    var geometry = new THREE.SphereGeometry(0.25, 16, 16);
+    // TODO: Remove center cell
+    var geometry = new THREE.SphereGeometry();
     var material = new THREE.MeshBasicMaterial({ color: 0x000000 });
     return new THREE.Mesh(geometry, material);
   };
