@@ -4,10 +4,13 @@ Life
 In 3D!!!
 --------
 
-This is a prototype visualization of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) represented in 3D. We built this at [Bendyworks](https://bendyworks.com) during our regular professional development time. [Demo](https://www.youtube.com/watch?v=_hewWDDvkMQ)
+This is a prototype visualization of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) represented in 3D. We built this at [Bendyworks](https://bendyworks.com) during our regular professional development time.
 
 (_BTW we are [hiring](https://bendyworks.com/careers)_)
 
+![Example](example.png)
+
+[Demo video](https://www.youtube.com/watch?v=_hewWDDvkMQ)
 
 Getting started
 ---------------
