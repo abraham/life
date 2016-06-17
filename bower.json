@@ -1,0 +1,20 @@
+{
+  "name": "life",
+  "homepage": "https://github.com/bendyworks/life",
+  "description": "",
+  "main": "public/js/app.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "three.js": "threejs#*",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.7",
+    "paper-swatch-picker": "PolymerElements/paper-swatch-picker#^1.0.1"
+  }
+}

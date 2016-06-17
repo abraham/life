@@ -13,6 +13,13 @@ get '/' do
   erb :index
 end
 
+get '/bower_components/*' do |sub_path|
+  content_type 'application/javascript' if sub_path.end_with?('.js')
+
+  path = File.join(settings.root, 'bower_components', sub_path)
+  File.read(File.expand_path(path))
+end
+
 get '/live' do
   if request.websocket?
     request.websocket do |ws|

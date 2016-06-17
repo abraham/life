@@ -4,11 +4,11 @@
   <title>Life^3</title>
   <link rel='stylesheet' href='/css/site.css'></link>
 
-  <link rel='import' href='https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/paper-button/paper-button.html'>
-  <link rel='import' href='https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/paper-slider/paper-slider.html'>
-  <link rel='import' href='https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/paper-header-panel/paper-header-panel.html'>
-  <link rel='import' href='https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/paper-toolbar/paper-toolbar.html'>
-  <link rel='import' href='https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/paper-card/paper-card.html'>
+  <link rel="import" href="bower_components/paper-card/paper-card.html">
+  <link rel="import" href="bower_components/paper-slider/paper-slider.html">
+  <link rel="import" href="bower_components/paper-header-panel/paper-header-panel.html">
+  <link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
+  <link rel="import" href="bower_components/paper-button/paper-button.html">
 
   <style is="custom-style">
     paper-slider.blue {
@@ -18,7 +18,7 @@
     }
   </style>
 
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r78/three.min.js'></script>
+  <script src='bower_components/three.js/build/three.min.js'></script>
   <script src='/js/orbit-controls.js'></script>
   <script src='/js/app.js'></script>
   <script src='/js/cells.js'></script>
@@ -67,7 +67,7 @@
       } else {
         // polyfill the platform!
         var e = document.createElement('script');
-        e.src = 'https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.22/webcomponents-lite.min.js';
+        e.src = 'bower_components/webcomponentsjs/webcomponents-lite.min.js';
         document.body.appendChild(e);
       }
     })();
