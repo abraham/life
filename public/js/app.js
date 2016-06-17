@@ -18,27 +18,39 @@ var BGL = (function(){
 
   function startLife() {
     BGL.view.prepareLife();
+    BGL.view.setStateToPlaying();
     requestStart();
   }
 
-  function stopLife() {
+  function playLife() {
+    BGL.view.setStateToPlaying();
+    requestTick();
+  }
+
+  function resetLife() {
     BGL.view.stopLife();
+    BGL.view.resetState();
     BGL.ws.push({ action: 'stop' });
+    BGL.view.clearScene();
+    BGL.view.resetControls();
   }
 
-  function stateTransition(event) {
-    // TODO: don't transition on focus
-    if (event.target.active) {
-      startLife();
-    } else {
-      stopLife();
-    }
+  function pauseLife() {
+    BGL.view.setStateToPaused();
   }
 
-  function pauseTransition(event) {
-    if (!BGL.view.isPaused() && !BGL.view.isStarted()) {
-      requestTick();
-    }
+  function onStateChange(event) {
+    var state = event.currentTarget.parentNode.dataset.state;
+    var callbacks = {
+      stopped: startLife,
+      playing: pauseLife,
+      paused: playLife
+    };
+    callbacks[state]();
+  }
+
+  function onReset(event) {
+    resetLife();
   }
 
   function requestStart() {
@@ -57,9 +69,9 @@ var BGL = (function(){
   }
 
   return {
-    stateTransition: stateTransition,
-    pauseTransition: pauseTransition,
     onMessage: onMessage,
+    onReset: onReset,
+    onStateChange: onStateChange,
     requestTick: requestTick
   };
 
@@ -71,6 +83,6 @@ document.addEventListener("DOMContentLoaded", function() {
   BGL.ws.connect();
   BGL.ws.setOnMessage(BGL.onMessage);
 
-  document.getElementById('start').addEventListener('transitionend', BGL.stateTransition);
-  document.getElementById('pause').addEventListener('transitionend', BGL.pauseTransition);
+  document.getElementById('state').addEventListener('click', BGL.onStateChange);
+  document.getElementById('reset').addEventListener('click', BGL.onReset);
 });

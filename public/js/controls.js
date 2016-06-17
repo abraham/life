@@ -29,10 +29,10 @@ BGL.controls = (function(THREE) {
   };
 
   return {
-    create: create,
-    update: update,
-    positionCamera: positionCamera,
     camera: getCamera,
-    createCamera: createCamera
+    create: create,
+    createCamera: createCamera,
+    positionCamera: positionCamera,
+    update: update
   };
 }(THREE));

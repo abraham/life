@@ -12,28 +12,19 @@ h1 {
   display: flex;
 }
 
-.buttons {
-  display: flex;
-  justify-content: center;
+#config {
+  position: absolute;
+  top: 80px;
+  left: 16px;
+  background-color: white;
 }
 
-#config > div {
-  padding: 15px;
+#canvas {
+  width: 100%;
 }
 
 .label {
-  text-align: left;
-  margin: 15px;
-}
-
-paper-button.green {
-  background-color: #388E3C;
-  color: white;
-}
-
-paper-button.red {
-  background-color: #D32F2F;
-  color: white;
+  margin: 16px;
 }
 
 paper-toolbar {

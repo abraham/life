@@ -8,6 +8,7 @@
   <link rel='import' href='https://cdn.rawgit.com/download/polymer-cdn/1.2.3.2/lib/paper-slider/paper-slider.html'>
   <link rel='import' href='https://cdn.rawgit.com/download/polymer-cdn/1.2.3.2/lib/paper-header-panel/paper-header-panel.html'>
   <link rel='import' href='https://cdn.rawgit.com/download/polymer-cdn/1.2.3.2/lib/paper-toolbar/paper-toolbar.html'>
+  <link rel='import' href='https://cdn.rawgit.com/download/polymer-cdn/1.2.3.2/lib/paper-card/paper-card.html'>
 
   <style is="custom-style">
     paper-slider.blue {
@@ -35,24 +36,24 @@
   </paper-header-panel>
 
   <div class="container">
-    <div id='config'>
 
+    <paper-card id='config'>
+      <div class="card-content">
         <div>
           <div class='label'>Size</div>
-          <paper-slider id='layers' class='blue' pin value='5' min='1' max='30' secondary-progress='100'></paper-slider>
+          <paper-slider id='layers' class='blue' pin value='10' min='1' max='30' secondary-progress='100'></paper-slider>
         </div>
 
         <div>
           <div class='label'>% of cells initially alive</div>
-          <paper-slider id='fill-percent' class='blue' pin value='40' min='1' max='100' secondary-progress='100'></paper-slider>
+          <paper-slider id='fill-percent' class='blue' pin value='42' min='1' max='100' secondary-progress='100'></paper-slider>
         </div>
-
-      <div class="buttons">
-        <paper-button id='start' class='green' toggles raised>Start</paper-button>
-        <paper-button id='pause' class='' toggles raised disabled>Pause</paper-button>
       </div>
-
-    </div>
+      <div class="card-actions" data-state='stopped'>
+        <paper-button id='state' class=''>Start</paper-button>
+        <paper-button id='reset' class=''>Reset</paper-button>
+      </div>
+    </paper-card>
 
     <div id='canvas'></div>
   </div>
