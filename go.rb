@@ -22,7 +22,8 @@ get '/live' do
       end
 
       ws.onmessage do |msg|
-        puts "onmessage #{msg}"
+        beginning_time = Time.now
+
         begin
           data = JSON.parse msg
           action = data['action']
@@ -34,7 +35,6 @@ get '/live' do
             space.future
             space.tick
             set_space ws, space
-            # TODO: only send alive cells
             push result: 'coordinates', data: space.changed_cells
           elsif action == 'tick'
             space = get_space ws
@@ -52,6 +52,9 @@ get '/live' do
         rescue JSON::ParserError
           push error: 'Unable to parse JSON'
         end
+
+        end_time = Time.now
+        puts "#{(end_time - beginning_time) * 1000} milliseconds onmessage #{msg}"
       end
 
       ws.onclose do
