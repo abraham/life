@@ -142,7 +142,7 @@ BGL.view = (function(THREE) {
     geom.vertices.push(src.clone());
     geom.vertices.push(dst.clone());
 
-    return new THREE.Line(geom, mat, THREE.LinePieces);
+    return new THREE.Line(geom, mat, THREE.LineSegments);
   }
 
   function createAxes() {
