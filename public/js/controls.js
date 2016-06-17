@@ -4,7 +4,7 @@ BGL.controls = (function(THREE) {
   var _controls;
 
   var positionCamera = function(position) {
-    _camera.position.set(5, 5, position);// = position;
+    _camera.position.set(5, 5, position);
   };
 
   var createCamera = function() {

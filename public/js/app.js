@@ -13,7 +13,6 @@ var BGL = (function(){
     BGL.view.addToGrid(results[0]);
     BGL.view.removeFromGrid(results[1]);
 
-    BGL.view.renderScene();
     setTimeout(requestTick, 1 * 1000);
   }
 

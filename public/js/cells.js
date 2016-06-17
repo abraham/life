@@ -35,15 +35,7 @@ BGL.cells = (function(THREE){
     };
   }
 
-  var createCenter = function() {
-    // TODO: Remove center cell
-    var geometry = new THREE.SphereGeometry();
-    var material = new THREE.MeshBasicMaterial({ color: 0x000000 });
-    return new THREE.Mesh(geometry, material);
-  };
-
   return {
-    processCells: processCells,
-    createCenter: createCenter
+    processCells: processCells
   };
 }(THREE));

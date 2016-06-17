@@ -4,7 +4,7 @@ BGL.view = (function(THREE) {
   var _renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   var _cells = {};
   var _scene = new THREE.Scene();
-  var _grid = new THREE.Object3D();
+  var _grid;
 
   function createRenderer() {
     _renderer.setSize(window.innerWidth - 260, window.innerHeight - 100);
@@ -45,13 +45,19 @@ BGL.view = (function(THREE) {
 
   function prepareLife() {
     clearScene();
+    createGrid();
     enableStopButton();
     enablePauseButton();
     BGL.controls.positionCamera(calculateCameraPosition());
   }
 
+  function createGrid() {
+    _grid = new THREE.Object3D();
+    _scene.add(_grid);
+  }
+
   function clearScene() {
-    _scene.children[1].children = [];
+    _scene.remove(_grid);
   }
 
   function enableStartButton() {
@@ -124,11 +130,14 @@ BGL.view = (function(THREE) {
   function init() {
     BGL.controls.createCamera();
     addRenderer();
-    _scene.add(BGL.cells.createCenter());
     _scene.add(_grid);
     _scene.add(buildAxes(getValue('layers', 0) * 2));
     BGL.controls.positionCamera(calculateCameraPosition());
     BGL.controls.create();
+  }
+
+  function clear() {
+    _scene.remove(_grid);
   }
 
   function renderer() {
