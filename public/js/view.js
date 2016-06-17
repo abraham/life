@@ -9,6 +9,7 @@ BGL.view = (function(THREE) {
   var _cells = {};
   var _scene = new THREE.Scene();
   var _grid;
+  var _axes;
 
   function createRenderer() {
     _renderer.setSize(window.innerWidth, window.innerHeight);
@@ -45,6 +46,7 @@ BGL.view = (function(THREE) {
   function prepareLife() {
     clearScene();
     createGrid();
+    createAxes();
     BGL.controls.positionCamera(calculateCameraPosition());
   }
 
@@ -143,13 +145,21 @@ BGL.view = (function(THREE) {
     return new THREE.Line(geom, mat, THREE.LinePieces);
   }
 
+  function createAxes() {
+    if (_axes) {
+      _scene.remove(_axes);
+    }
+    _axes = buildAxes(getValue('layers', DEFAULT_LAYERS));
+    _scene.add(_axes);
+  }
+
   function init() {
     _stateButton = document.getElementById('state');
     _resetButton = document.getElementById('reset');
     BGL.controls.createCamera();
     addRenderer();
     createGrid();
-    _scene.add(buildAxes(getValue('layers', DEFAULT_LAYERS) * 2));
+    createAxes();
     BGL.controls.positionCamera(calculateCameraPosition());
     BGL.controls.create();
   }
