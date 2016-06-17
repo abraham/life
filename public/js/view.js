@@ -1,11 +1,12 @@
 BGL.view = (function(THREE) {
   'use strict';
 
-  var scene, grid, _renderer,
-    _cells = {};
+  var _renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  var _cells = {};
+  var _scene = new THREE.Scene();
+  var _grid = new THREE.Object3D();
 
   function createRenderer() {
-    _renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     _renderer.setSize(window.innerWidth - 260, window.innerHeight - 100);
   }
 
@@ -50,7 +51,7 @@ BGL.view = (function(THREE) {
   }
 
   function clearScene() {
-    scene.children[1].children = [];
+    _scene.children[1].children = [];
   }
 
   function enableStartButton() {
@@ -85,14 +86,14 @@ BGL.view = (function(THREE) {
   function addToGrid(items) {
     items.forEach(function(item) {
       // item = [key, cube]
-      grid.add(item[1]);
+      _grid.add(item[1]);
       _cells[item[0]] = item[1];
     });
   }
 
   function removeFromGrid(items) {
     items.forEach(function(key) {
-      grid.remove(_cells[key]);
+      _grid.remove(_cells[key]);
       delete _cells[key];
     });
   }
@@ -121,13 +122,11 @@ BGL.view = (function(THREE) {
   }
 
   function init() {
-    scene = new THREE.Scene();
     BGL.controls.createCamera();
     addRenderer();
-    scene.add(BGL.cells.createCenter());
-    grid = new THREE.Object3D();
-    scene.add(grid);
-    scene.add(buildAxes(getValue('layers', 0) * 2));
+    _scene.add(BGL.cells.createCenter());
+    _scene.add(_grid);
+    _scene.add(buildAxes(getValue('layers', 0) * 2));
     BGL.controls.positionCamera(calculateCameraPosition());
     BGL.controls.create();
   }
@@ -139,7 +138,7 @@ BGL.view = (function(THREE) {
   function renderScene() {
     requestAnimationFrame(renderScene);
     BGL.controls.update();
-    _renderer.render(scene, BGL.controls.camera());
+    _renderer.render(_scene, BGL.controls.camera());
   }
 
   return {
