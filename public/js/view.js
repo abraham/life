@@ -47,7 +47,6 @@ BGL.view = (function(THREE) {
     clearScene();
     createGrid();
     createAxes();
-    BGL.controls.positionCamera(calculateCameraPosition());
   }
 
   function createGrid() {
@@ -133,7 +132,8 @@ BGL.view = (function(THREE) {
     _stateButton.parentNode.dataset.state = 'stopped';
     document.getElementById('layers').removeAttribute('disabled');
     document.getElementById('fill-percent').removeAttribute('disabled');
-}
+    BGL.controls.positionCamera(calculateCameraPosition());
+  }
 
   function buildAxis(src, dst, colorHex) {
     var geom = new THREE.Geometry();
