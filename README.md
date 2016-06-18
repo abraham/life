@@ -15,8 +15,8 @@ This is a prototype visualization of [Conway's Game of Life](https://en.wikipedi
 Getting started
 ---------------
 
- 1. Download the code
- 1. Run `bundle install` to get Ruby dependancies
- 1. Run `bower install` to get JS dependancies
- 1. Run `ruby go.rb` to start server
- 1. Open [http://localhost:4567](http://localhost:4567) in your browser
+ 1. Install bower and the polymer-cli with `$ npm install -g polymer-cli bower`
+ 1. Checkout the code `$ git clone git@github.com:bendyworks/life.git`
+ 1. Run `$ bower install` to install the dependancies
+ 1. Run `$ polymer serve` to start the server
+ 1. Open [http://localhost:8080](http://localhost:8080) in your browser
