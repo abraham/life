@@ -19,4 +19,4 @@ Getting started
  1. Run `bundle install` to get Ruby dependancies
  1. Run `bower install` to get JS dependancies
  1. Run `ruby go.rb` to start server
- 1. Open http://localhost:4567 in your browser
+ 1. Open [http://localhost:4567](http://localhost:4567) in your browser
