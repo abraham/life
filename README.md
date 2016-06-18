@@ -16,13 +16,7 @@ Getting started
 ---------------
 
  1. Download the code
- 1. Run `bundle install` to get dependancies
+ 1. Run `bundle install` to get Ruby dependancies
+ 1. Run `bower install` to get JS dependancies
  1. Run `ruby go.rb` to start server
  1. Open http://localhost:4567 in your browser
-
-
-Terms
------
-
- * `layers` - Think of the 3D space as an onion and this is the number of layers to simulate out from the center square.
- * `fill percent` - The likelihood that any individual cell will start in an alive state with 100 being always alive.
