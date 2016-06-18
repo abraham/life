@@ -9,6 +9,7 @@
   <link rel="import" href="bower_components/paper-header-panel/paper-header-panel.html">
   <link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
   <link rel="import" href="bower_components/paper-button/paper-button.html">
+  <link rel="import" href="bower_components/paper-swatch-picker/paper-swatch-picker.html">
 
   <style is="custom-style">
     paper-slider.blue {
@@ -16,8 +17,16 @@
       --paper-slider-active-color: var(--paper-blue-a700);
       --paper-slider-secondary-color: var(--paper-grey-600);
     }
+
+    paper-toolbar {
+      --paper-toolbar-background: #2196F3;
+      --paper-toolbar: {
+        font-size: x-large;
+      };
+    }
   </style>
 
+  <script src='bower_components/vibrant/dist/Vibrant.min.js'></script>
   <script src='bower_components/three.js/build/three.min.js'></script>
   <script src='/js/orbit-controls.js'></script>
   <script src='/js/app.js'></script>
@@ -48,7 +57,12 @@
           <div class='label'>% of cells initially alive</div>
           <paper-slider id='fill-percent' class='blue' pin value='42' min='1' max='100' secondary-progress='100'></paper-slider>
         </div>
+
+        <div>
+          <div class='label'>Color <paper-swatch-picker id='color' color='#2196F3'></paper-swatch-picker></div>
+        </div>
       </div>
+
       <div class="card-actions" data-state='stopped'>
         <paper-button id='state' class=''>Start</paper-button>
         <paper-button id='reset' class=''>Reset</paper-button>

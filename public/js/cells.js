@@ -1,8 +1,9 @@
 BGL.cells = (function(THREE){
   'use strict';
 
+  var DEFAULT_COLOR = '#2196F3';
   var _geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-  var _material = new THREE.MeshBasicMaterial({ color: 0x2196F3 });
+  var _material = new THREE.MeshBasicMaterial({ color: DEFAULT_COLOR });
 
   var processCells = function(coordinates) {
     var add = [];
@@ -35,7 +36,12 @@ BGL.cells = (function(THREE){
     };
   }
 
+  function setColor(color) {
+    _material.color.set(color);
+  }
+
   return {
-    processCells: processCells
+    processCells: processCells,
+    setColor: setColor
   };
 }(THREE));

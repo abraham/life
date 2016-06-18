@@ -183,6 +183,29 @@ BGL.view = (function(THREE) {
     _renderer.render(_scene, BGL.controls.camera());
   }
 
+  function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return [
+        parseInt(result[1], 16),
+        parseInt(result[2], 16),
+        parseInt(result[3], 16)
+    ];
+  }
+
+  function complementaryColor(hex) {
+    var swatch = new Swatch(hexToRgb(hex));
+    return swatch.getTitleTextColor();
+  }
+
+  function setColor(color) {
+    var complColor = complementaryColor(color);
+    var toolbar = document.querySelector('paper-toolbar');
+    toolbar.customStyle['--paper-toolbar-background'] = color;
+    toolbar.customStyle['--paper-toolbar-color'] = complColor;
+    toolbar.updateStyles();
+    document.getElementById('canvas').style['background-color'] = complColor;
+  }
+
   return {
     addToGrid: addToGrid,
     clearScene: clearScene,
@@ -195,6 +218,7 @@ BGL.view = (function(THREE) {
     renderScene: renderScene,
     resetControls: resetControls,
     resetState: resetState,
+    setColor: setColor,
     setStateToPaused: setStateToPaused,
     setStateToPlaying: setStateToPlaying,
     stopLife: stopLife

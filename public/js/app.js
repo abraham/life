@@ -68,11 +68,17 @@ var BGL = (function(){
     }
   }
 
+  function setColor(event) {
+    BGL.cells.setColor(event.currentTarget.color);
+    BGL.view.setColor(event.currentTarget.color);
+  }
+
   return {
     onMessage: onMessage,
     onReset: onReset,
     onStateChange: onStateChange,
-    requestTick: requestTick
+    requestTick: requestTick,
+    setColor: setColor
   };
 
 }());
@@ -85,4 +91,5 @@ document.addEventListener("DOMContentLoaded", function() {
 
   document.getElementById('state').addEventListener('click', BGL.onStateChange);
   document.getElementById('reset').addEventListener('click', BGL.onReset);
+  document.getElementById('color').addEventListener('color-picker-selected', BGL.setColor);
 });

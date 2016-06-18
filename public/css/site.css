@@ -21,13 +21,9 @@ h1 {
 
 #canvas {
   width: 100%;
+  background-color: white;
 }
 
 .label {
   margin: 16px;
-}
-
-paper-toolbar {
-  background-color: #2196F3 !important;
-  font-size: x-large;
 }
