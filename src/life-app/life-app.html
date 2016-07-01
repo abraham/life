@@ -1,0 +1,63 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../head-er/head-er.html">
+<link rel="import" href="../con-trols/con-trols.html">
+
+<dom-module id="life-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+        font-family: 'Roboto', sans-serif;
+        margin: 0px;
+        padding: 0px;
+      }
+
+      con-trols {
+        position: absolute;
+        top: 80px;
+        left: 16px;
+      }
+    </style>
+
+    <!-- turn into header element -->
+    <head-er color="[[secondaryColor]]" background-color="[[primaryColor]]"></head-er>
+
+    <div class="container">
+      <con-trols id='con-trols' color="{{primaryColor}}" complementary-color={{secondaryColor}}></con-trols>
+
+      <div id='canvas'></div>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'life-app',
+      properties: {
+        secondaryColor: {
+          type: String,
+          value: '#ffffff',
+          notify: true
+        },
+        primaryColor: {
+          type: String,
+          value: '#2196F3',
+          notify: true
+        }
+      },
+
+      listeners: {
+        'con-trols.color-changed': '_onColorChanged',
+        'con-trols.complementary-color-changed': '_onComplementaryColorChanged'
+      },
+
+      _onColorChanged: function(event) {
+        this.color = event.detail.value;
+        console.log('test color', event.detail.value);
+      },
+      _onComplementaryColorChanged: function(event) {
+        this.backgroundColor = event.detail.value;
+        console.log('test complementary', event.detail.value);
+      }
+    });
+  </script>
+</dom-module>

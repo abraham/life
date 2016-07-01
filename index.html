@@ -1,90 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html>
-<head>
-  <title>Life^3</title>
-  <link rel='stylesheet' href='/css/site.css'></link>
+  <head>
+    <title>life</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.json">
+    <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="/src/life-app/life-app.html">
 
-  <link rel="import" href="bower_components/paper-card/paper-card.html">
-  <link rel="import" href="bower_components/paper-slider/paper-slider.html">
-  <link rel="import" href="bower_components/paper-header-panel/paper-header-panel.html">
-  <link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
-  <link rel="import" href="bower_components/paper-button/paper-button.html">
-  <link rel="import" href="bower_components/paper-swatch-picker/paper-swatch-picker.html">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 
-  <style is="custom-style">
-    paper-slider.blue {
-      --paper-slider-knob-color: var(--paper-blue-a700);
-      --paper-slider-active-color: var(--paper-blue-a700);
-      --paper-slider-secondary-color: var(--paper-grey-600);
-    }
-
-    paper-toolbar {
-      --paper-toolbar-background: #2196F3;
-      --paper-toolbar: {
-        font-size: x-large;
-      };
-    }
-  </style>
-
-  <script src='bower_components/vibrant/dist/Vibrant.min.js'></script>
-  <script src='bower_components/three.js/build/three.min.js'></script>
-  <script src='/js/orbit-controls.js'></script>
-  <script src='/js/app.js'></script>
-  <script src='/js/cells.js'></script>
-  <script src='/js/controls.js'></script>
-  <script src='/js/ws.js'></script>
-  <script src='/js/view.js'></script>
-
-  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-</head>
-<body>
-  <paper-header-panel class="flex" mode="standard">
-    <paper-toolbar>
-      <div class="paper-header">The Bendy Game of Life</div>
-    </paper-toolbar>
-  </paper-header-panel>
-
-  <div class="container">
-
-    <paper-card id='config'>
-      <div class="card-content">
-        <div>
-          <div class='label'>Size</div>
-          <paper-slider id='layers' class='blue' pin value='10' min='1' max='30' secondary-progress='100'></paper-slider>
-        </div>
-
-        <div>
-          <div class='label'>% of cells initially alive</div>
-          <paper-slider id='fill-percent' class='blue' pin value='42' min='1' max='100' secondary-progress='100'></paper-slider>
-        </div>
-
-        <div>
-          <div class='label'>Color <paper-swatch-picker id='color' color='#2196F3'></paper-swatch-picker></div>
-        </div>
-      </div>
-
-      <div class="card-actions" data-state='stopped'>
-        <paper-button id='state' class=''>Start</paper-button>
-        <paper-button id='reset' class=''>Reset</paper-button>
-      </div>
-    </paper-card>
-
-    <div id='canvas'></div>
-  </div>
-
-  <script>
-    (function() {
-      if ('registerElement' in document
-          && 'import' in document.createElement('link')
-          && 'content' in document.createElement('template')) {
-        // platform is good!
-      } else {
-        // polyfill the platform!
-        var e = document.createElement('script');
-        e.src = 'bower_components/webcomponentsjs/webcomponents-lite.min.js';
-        document.body.appendChild(e);
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
       }
-    })();
-  </script>
-</body>
+    </style>
+
+  </head>
+  <body>
+    <life-app></life-app>
+  </body>
 </html>

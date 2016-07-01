@@ -1,0 +1,85 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-swatch-picker/paper-swatch-picker.html">
+
+<script src='../../bower_components/vibrant/dist/Vibrant.min.js'></script>
+
+<dom-module id="con-trols">
+  <template>
+    <style>
+      :host {
+        display: block;
+        background-color: white;
+      }
+
+      paper-slider.blue {
+        --paper-slider-knob-color: var(--paper-blue-a700);
+        --paper-slider-active-color: var(--paper-blue-a700);
+        --paper-slider-secondary-color: var(--paper-grey-600);
+      }
+    </style>
+
+    <paper-card>
+      <div class="card-content">
+        <div>
+          <div class='label'>Size</div>
+          <paper-slider id='layers' class='blue' pin value='10' min='1' max='30' secondary-progress='100'></paper-slider>
+        </div>
+
+        <div>
+          <div class='label'>% of cells initially alive</div>
+          <paper-slider id='fill-percent' class='blue' pin value='42' min='1' max='100' secondary-progress='100'></paper-slider>
+        </div>
+
+        <div>
+          <div class='label'>Color <paper-swatch-picker color='{{color}}'></paper-swatch-picker></div>
+        </div>
+      </div>
+
+      <div class="card-actions" data-state='stopped'>
+        <paper-button id='state'>Start</paper-button>
+        <paper-button id='reset'>Reset</paper-button>
+      </div>
+    </paper-card>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'con-trols',
+
+      properties: {
+        color: {
+          type: String,
+          notify: true
+        },
+        complementaryColor: {
+          type: String,
+          notify: true
+        }
+      },
+
+      listeners: {
+        'color-picker-selected': '_onColorSelected'
+      },
+
+      _onColorSelected: function(event) {
+        this.color = event.detail.color;
+        this.complementaryColor = this._complementaryColor(this.color);
+      },
+      _hexToRgb: function(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return [
+            parseInt(result[1], 16),
+            parseInt(result[2], 16),
+            parseInt(result[3], 16)
+        ];
+      },
+      _complementaryColor: function(hex) {
+        var swatch = new Swatch(this._hexToRgb(hex));
+        return swatch.getTitleTextColor();
+      }
+    });
+  </script>
+</dom-module>

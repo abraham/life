@@ -1,0 +1,59 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+
+<dom-module id="head-er">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      paper-toolbar {
+        --paper-toolbar: {
+          font-size: x-large;
+        };
+      }
+    </style>
+
+    <paper-header-panel class="flex" mode="standard">
+      <paper-toolbar>
+        <div class="paper-header">The Bendy Game of Life</div>
+      </paper-toolbar>
+    </paper-header-panel>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'head-er',
+
+      properties: {
+        backgroundColor: {
+          type: String,
+          notify: true
+        },
+        color: {
+          type: String,
+          notify: true
+        }
+      },
+
+      listeners: {
+        'background-color-changed': '_updateStyles',
+        'color-changed': '_updateStyles'
+      },
+
+      _updateStyles: function() {
+        var toolbar = this.querySelector('paper-toolbar');
+        toolbar.customStyle['--paper-toolbar-color'] = this.color;
+        toolbar.customStyle['--paper-toolbar-background'] = this.backgroundColor;
+        toolbar.updateStyles();
+      },
+
+      ready: function() {
+        this._updateStyles();
+      }
+    });
+  </script>
+</dom-module>

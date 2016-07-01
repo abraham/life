@@ -1,21 +1,17 @@
 {
   "name": "life",
-  "homepage": "https://github.com/bendyworks/life",
-  "description": "",
-  "main": "public/js/app.js",
-  "license": "MIT",
-  "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
+  "main": "index.html",
   "dependencies": {
-    "three.js": "threejs#*",
     "paper-elements": "PolymerElements/paper-elements#^1.0.7",
     "paper-swatch-picker": "PolymerElements/paper-swatch-picker#^1.0.1",
+    "polymer": "Polymer/polymer#^1.4.0",
+    "three.js": "threejs#*",
     "vibrant": "*"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   }
 }

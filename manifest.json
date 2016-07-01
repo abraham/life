@@ -1,0 +1,6 @@
+{
+  "name": "life",
+  "short_name": "life",
+  "start_url": "/",
+  "display": "standalone"
+}
