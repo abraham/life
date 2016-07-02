@@ -24,49 +24,54 @@
 
       #canvas {
         width: 100%;
+      }
+
+      .light-mode {
         background-color: white;
+      }
+      .dark-mode {
+        background-color: black;
       }
     </style>
 
-    <!-- turn into header element -->
-    <head-er color="[[secondaryColor]]" background-color="[[primaryColor]]"></head-er>
+    <head-er color="[[colors.secondary]]" background-color="[[colors.primary]]"></head-er>
 
     <div class="container">
-      <con-trols id='con-trols' color="{{primaryColor}}" complementary-color={{secondaryColor}}></con-trols>
+      <con-trols id='con-trols' color="{{colors.primary}}" complementary-color={{colors.secondary}}></con-trols>
 
-      <div id='canvas'></div>
+      <!-- turn into canvas companent -->
+      <div id='canvas' class$="[[canvasClass]]"></div>
     </div>
   </template>
 
   <script>
+    const defaultColors = { primary: '#2196F3', secondary: '#ffffff' };
+
     Polymer({
       is: 'life-app',
       properties: {
-        secondaryColor: {
-          type: String,
-          value: '#ffffff',
-          notify: true
+        colors: {
+          type: Object,
+          notify: true,
+          value: () => defaultColors
         },
-        primaryColor: {
+        canvasClass: {
           type: String,
-          value: '#2196F3',
-          notify: true
+          computed: '_computeCanvasClass(colors.secondary)'
         }
       },
 
       listeners: {
-        'con-trols.color-changed': '_onColorChanged',
-        'con-trols.complementary-color-changed': '_onComplementaryColorChanged'
+        'con-trols.colors-changed': '_onColorsChanged'
       },
 
-      _onColorChanged: function(event) {
-        this.color = event.detail.value;
-        console.log('test color', event.detail.value);
+      _onColorsChanged: function(event) {
+        this.colors = event.currentTarget.colors;
+        // document.getElementById('canvas').style['background-color'] = this.colors.secondary;
+        console.log('test colors', event.currentTarget.colors);
       },
-      _onComplementaryColorChanged: function(event) {
-        this.backgroundColor = event.detail.value;
-        document.getElementById('canvas').style['background-color'] = this.backgroundColor;
-        console.log('test complementary', event.detail.value);
+      _computeCanvasClass: function(secondary) {
+        return ['#000', '#000000'].includes(secondary) ? 'dark-mode' : 'light-mode';
       }
     });
   </script>

@@ -38,7 +38,7 @@
         </div>
 
         <div>
-          <div class='label'>Color <paper-swatch-picker color='{{color}}'></paper-swatch-picker></div>
+          <div class='label'>Color <paper-swatch-picker color='{{colors.primary}}'></paper-swatch-picker></div>
         </div>
       </div>
 
@@ -50,19 +50,18 @@
   </template>
 
   <script>
+  {
+    const defaultColors = { primary: '#2196F3', secondary: '#ffffff' };
     const defaultSettings = { size: 21, initiallyAlive: 42 };
 
     Polymer({
       is: 'con-trols',
 
       properties: {
-        color: {
-          type: String,
-          notify: true
-        },
-        complementaryColor: {
-          type: String,
-          notify: true
+        colors: {
+          type: Object,
+          notify: true,
+          value: () => defaultColors
         },
         settings: {
           type: Object,
@@ -76,8 +75,10 @@
       },
 
       _onColorSelected: function(event) {
-        this.color = event.detail.color;
-        this.complementaryColor = this._complementaryColor(this.color);
+        this.colors = {
+          primary: event.detail.color,
+          secondary: this._complementaryColor(event.detail.color)
+        };
       },
       _hexToRgb: function(hex) {
         var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -92,5 +93,6 @@
         return swatch.getTitleTextColor();
       }
     });
+  }
   </script>
 </dom-module>
