@@ -17,6 +17,15 @@
         top: 80px;
         left: 16px;
       }
+
+      .container {
+        display: flex;
+      }
+
+      #canvas {
+        width: 100%;
+        background-color: white;
+      }
     </style>
 
     <!-- turn into header element -->
@@ -56,6 +65,7 @@
       },
       _onComplementaryColorChanged: function(event) {
         this.backgroundColor = event.detail.value;
+        document.getElementById('canvas').style['background-color'] = this.backgroundColor;
         console.log('test complementary', event.detail.value);
       }
     });
