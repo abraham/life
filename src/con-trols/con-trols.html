@@ -29,12 +29,12 @@
       <div class="card-content">
         <div>
           <div class='label'>Size</div>
-          <paper-slider id='layers' class='blue' pin value='{{settings.size}}' min='1' max='50' secondary-progress='50'></paper-slider>
+          <paper-slider id='layers' class='blue' pin disabled="[[sliderDisabled]]" value='{{settings.size}}' min='1' max='50' secondary-progress='50'></paper-slider>
         </div>
 
         <div>
           <div class='label'>% of cells initially alive</div>
-          <paper-slider id='fill-percent' class='blue' pin value='{{settings.initiallyAlive}}' min='1' max='100' secondary-progress='100'></paper-slider>
+          <paper-slider id='fill-percent' class='blue' pin disabled="[[sliderDisabled]]" value='{{settings.initiallyAlive}}' min='1' max='100' secondary-progress='100'></paper-slider>
         </div>
 
         <div>
@@ -43,7 +43,7 @@
       </div>
 
       <div class="card-actions" data-state='stopped'>
-        <paper-button id='state'>Start</paper-button>
+        <paper-button id='state'>[[stateText]]</paper-button>
         <paper-button id='reset'>Reset</paper-button>
       </div>
     </paper-card>
@@ -53,6 +53,9 @@
   {
     const defaultColors = { primary: '#2196F3', secondary: '#ffffff' };
     const defaultSettings = { size: 21, initiallyAlive: 42 };
+    const RESET_STATE = 'reset';
+    const PLAYING_STATE = 'playing';
+    const STOPPED_STATE = 'stopped';
 
     Polymer({
       is: 'con-trols',
@@ -67,11 +70,33 @@
           type: Object,
           notify: true,
           value: () => defaultSettings
+        },
+        state: {
+          type: String,
+          notify: true,
+          value: RESET_STATE
+        },
+        stateText: {
+          type: String,
+          computed: '_computeStateText(state)'
+        },
+        sliderDisabled: {
+          type: Boolean,
+          computed: '_computeSliderDisabled(state)'
         }
       },
 
       listeners: {
-        'color-picker-selected': '_onColorSelected'
+        'color-picker-selected': '_onColorSelected',
+        'state.click': '_onStateClick',
+        'reset.click': '_onResetClick'
+      },
+
+      _computeSliderDisabled: function(state) {
+        return state === RESET_STATE ? false : true;
+      },
+      _computeStateText: function(state) {
+        return state === PLAYING_STATE ? 'Pause' : 'Play';
       },
 
       _onColorSelected: function(event) {
@@ -80,6 +105,13 @@
           secondary: this._complementaryColor(event.detail.color)
         };
       },
+      _onStateClick: function(event) {
+        this.state = this.state === PLAYING_STATE ? STOPPED_STATE : PLAYING_STATE
+      },
+      _onResetClick: function() {
+        this.state = RESET_STATE;
+      },
+
       _hexToRgb: function(hex) {
         var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
         return [
