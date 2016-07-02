@@ -64,12 +64,12 @@
         colors: {
           type: Object,
           notify: true,
-          value: () => defaultColors
+          value: () => Object.assign({}, defaultColors)
         },
         settings: {
           type: Object,
           notify: true,
-          value: () => defaultSettings
+          value: () => Object.assign({}, defaultSettings)
         },
         state: {
           type: String,
@@ -109,6 +109,7 @@
         this.state = this.state === PLAYING_STATE ? STOPPED_STATE : PLAYING_STATE
       },
       _onResetClick: function() {
+        this.settings = Object.assign({}, defaultSettings);
         this.state = RESET_STATE;
       },
 
