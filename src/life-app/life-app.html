@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../head-er/head-er.html">
 <link rel="import" href="../con-trols/con-trols.html">
+<link rel="import" href="../can-vas/can-vas.html">
 
 <dom-module id="life-app">
   <template>
@@ -18,29 +19,22 @@
         left: 16px;
       }
 
+      can-vas {
+        width: 100%;
+        height: 100%;
+      }
+
       .container {
         display: flex;
-      }
-
-      #canvas {
-        width: 100%;
-      }
-
-      .light-mode {
-        background-color: white;
-      }
-      .dark-mode {
-        background-color: black;
       }
     </style>
 
     <head-er color="[[colors.secondary]]" background-color="[[colors.primary]]"></head-er>
 
     <div class="container">
-      <con-trols id='con-trols' color="{{colors.primary}}" complementary-color={{colors.secondary}}></con-trols>
+      <con-trols id='con-trols' colors="{{colors}}"></con-trols>
 
-      <!-- turn into canvas companent -->
-      <div id='canvas' class$="[[canvasClass]]"></div>
+      <can-vas colors="[[colors]]" settings="[[settings]]"></can-vas>
     </div>
   </template>
 
@@ -53,11 +47,7 @@
         colors: {
           type: Object,
           notify: true,
-          value: () => defaultColors
-        },
-        canvasClass: {
-          type: String,
-          computed: '_computeCanvasClass(colors.secondary)'
+          value: () => Object.assign({}, defaultColors)
         }
       },
 
@@ -67,11 +57,7 @@
 
       _onColorsChanged: function(event) {
         this.colors = event.currentTarget.colors;
-        // document.getElementById('canvas').style['background-color'] = this.colors.secondary;
         console.log('test colors', event.currentTarget.colors);
-      },
-      _computeCanvasClass: function(secondary) {
-        return ['#000', '#000000'].includes(secondary) ? 'dark-mode' : 'light-mode';
       }
     });
   </script>

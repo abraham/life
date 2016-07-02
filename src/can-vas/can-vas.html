@@ -1,0 +1,76 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<script src='../../bower_components/three.js/build/three.min.js'></script>
+
+<dom-module id="can-vas">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #canvas {
+        width: 100%;
+      }
+
+      :host.light-mode {
+        background-color: white;
+      }
+
+      :host.dark-mode {
+        background-color: black;
+      }
+    </style>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'can-vas',
+
+      properties: {
+        settings: Object,
+        colors: {
+          type: Object,
+          notify: true,
+          observer: '_onColorsChanged'
+        },
+        renderer: {
+          type: Object,
+          value: new THREE.WebGLRenderer({ alpha: true, antialias: true })
+        },
+        cells: {
+          type: Object,
+          value: () => { return {}; }
+        },
+        scene: {
+          type: Object,
+          value: new THREE.Scene()
+        },
+        grid: {
+          type: Object,
+        },
+        axes: {
+          type: Object,
+        }
+      },
+
+      listeners: {},
+
+      _onColorsChanged: function() {
+        if(['#000', '#000000'].includes(this.colors.secondary)) {
+          this.classList.add('dark-mode');
+          this.classList.remove('light-mode');
+        } else {
+          this.classList.add('light-mode');
+          this.classList.remove('dark-mode');
+        }
+      },
+
+      ready: function() {
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.appendChild(this.renderer.domElement)
+      }
+    });
+  </script>
+</dom-module>
