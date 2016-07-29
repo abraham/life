@@ -32,14 +32,15 @@
     <head-er color="[[colors.secondary]]" background-color="[[colors.primary]]"></head-er>
 
     <div class="container">
-      <con-trols id='con-trols' colors="{{colors}}"></con-trols>
+      <con-trols id='con-trols' colors="{{colors}}" settings="{{settings}}"></con-trols>
 
-      <can-vas colors="[[colors]]" settings="[[settings]]"></can-vas>
+      <can-vas colors="[[colors]]" settings="[[settings]]" length="30"></can-vas>
     </div>
   </template>
 
   <script>
     const defaultColors = { primary: '#2196F3', secondary: '#ffffff' };
+    const defaultSettings = { size: 21, initiallyAlive: 42 };
 
     Polymer({
       is: 'life-app',
@@ -48,16 +49,24 @@
           type: Object,
           notify: true,
           value: () => Object.assign({}, defaultColors)
+        },
+        settings: {
+          type: Object,
+          notify: true,
+          value: () => Object.assign({}, defaultSettings)
         }
       },
 
       listeners: {
-        'con-trols.colors-changed': '_onColorsChanged'
+        'con-trols.colors-changed': '_onColorsChanged',
+        'con-trols.settings-changed': '_onSettingsChanged'
       },
 
       _onColorsChanged: function(event) {
         this.colors = event.currentTarget.colors;
-        console.log('test colors', event.currentTarget.colors);
+      },
+      _onSettingsChanged: function(event) {
+        this.settings = event.currentTarget.settings;
       }
     });
   </script>
