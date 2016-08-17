@@ -36,8 +36,8 @@ BGL.cells = (function(THREE){
     };
   }
 
-  function setColor(color) {
-    _material.color.set(color);
+  function setColor(colors) {
+    _material.color.set(colors[0]);
   }
 
   return {

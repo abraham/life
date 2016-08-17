@@ -102,15 +102,15 @@ BGL.view = (function(THREE) {
     });
   }
 
-  function buildAxes(length) {
+  function buildAxes(length, color) {
     var axes = new THREE.Object3D();
 
-    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(length, 0, 0), 0x9E9E9E));
-    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(- length, 0, 0), 0x9E9E9E));
-    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, length, 0), 0x9E9E9E));
-    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, - length, 0), 0x9E9E9E));
-    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, length), 0x9E9E9E));
-    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, - length), 0x9E9E9E));
+    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(length, 0, 0), color));
+    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(- length, 0, 0), color));
+    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, length, 0), color));
+    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, - length, 0), color));
+    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, length), color));
+    axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, - length), color));
 
     return axes;
   }
@@ -135,9 +135,9 @@ BGL.view = (function(THREE) {
     BGL.controls.positionCamera(calculateCameraPosition());
   }
 
-  function buildAxis(src, dst, colorHex) {
+  function buildAxis(src, dst, color) {
     var geom = new THREE.Geometry();
-    var mat = new THREE.LineBasicMaterial({ linewidth: 2, color: colorHex });
+    var mat = new THREE.LineBasicMaterial({ linewidth: 1, color: color });
 
     geom.vertices.push(src.clone());
     geom.vertices.push(dst.clone());
@@ -146,11 +146,12 @@ BGL.view = (function(THREE) {
   }
 
   function createAxes() {
-    if (_axes) {
-      _scene.remove(_axes);
+    if (BGL.view.axes) {
+      _scene.remove(BGL.view.axes);
     }
-    _axes = buildAxes(getValue('layers', DEFAULT_LAYERS));
-    _scene.add(_axes);
+    BGL.view.axes = buildAxes(getValue('layers', DEFAULT_LAYERS), 0x9E9E9E);
+    _scene.add(BGL.view.axes);
+    setAxesColor(BGL.view.colors());
   }
 
   function init() {
@@ -194,16 +195,32 @@ BGL.view = (function(THREE) {
 
   function complementaryColor(hex) {
     var swatch = new Swatch(hexToRgb(hex));
-    return swatch.getTitleTextColor();
+    return longHexColor(swatch.getTitleTextColor());
   }
 
-  function setColor(color) {
-    var complColor = complementaryColor(color);
+  function longHexColor(shortHex) {
+    return '#' + shortHex.slice(1, 4) + shortHex.slice(1, 4);
+  }
+
+  function colors() {
+    var primary = document.getElementById('color').color;
+    var secondary = complementaryColor(primary);
+    var alternate = complementaryColor(secondary);
+    return [primary, secondary, alternate];
+  }
+
+  function setAxesColor(colors) {
+    BGL.view.axes.children.forEach(function(axes) {
+      axes.material.color.set(colors[2]);
+    });
+  }
+
+  function setColor(colors) {
     var toolbar = document.querySelector('paper-toolbar');
-    toolbar.customStyle['--paper-toolbar-background'] = color;
-    toolbar.customStyle['--paper-toolbar-color'] = complColor;
+    toolbar.customStyle['--paper-toolbar-background'] = colors[0];
+    toolbar.customStyle['--paper-toolbar-color'] = colors[1];
     toolbar.updateStyles();
-    document.getElementById('canvas').style['background-color'] = complColor;
+    document.getElementById('canvas').style['background-color'] = colors[1];
   }
 
   return {
@@ -221,6 +238,8 @@ BGL.view = (function(THREE) {
     setColor: setColor,
     setStateToPaused: setStateToPaused,
     setStateToPlaying: setStateToPlaying,
-    stopLife: stopLife
+    stopLife: stopLife,
+    setAxesColor: setAxesColor,
+    colors: colors
   };
 }(THREE));

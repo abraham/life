@@ -69,8 +69,9 @@ var BGL = (function(){
   }
 
   function setColor(event) {
-    BGL.cells.setColor(event.currentTarget.color);
-    BGL.view.setColor(event.currentTarget.color);
+    BGL.cells.setColor(BGL.view.colors());
+    BGL.view.setColor(BGL.view.colors());
+    BGL.view.setAxesColor(BGL.view.colors());
   }
 
   return {
