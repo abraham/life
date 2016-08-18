@@ -4,11 +4,14 @@ require_relative 'cell'
 class Space
   LIKELIHOOD_OF_STARTING_ALIVE = 75
   DEFAULT_LAYERS = 13
-  STAYIN_ALIVE = [4].freeze
-  GOOD_NEIGHBOR_COUNT = [5, 6, 7].freeze
   X = 0
   Y = 0
   Z = 0
+
+  WXYZ_RULES = [3, 4, 5, 6].freeze
+  # WXYZ_RULES = [4, 5, 5, 5].freeze
+  # WXYZ_RULES = [2, 3, 3, 4].freeze
+  # WXYZ_RULES = [5, 7, 6, 6].freeze
 
   attr_reader :cells, :changed_cells
 
@@ -68,13 +71,13 @@ class Space
 
   def suggest_state(living_neighbors, alive)
     if alive
-      if living_neighbors <= 2 || living_neighbors >= 8
-        :dead
-      else
+      if WXYZ_RULES[0] <= living_neighbors && living_neighbors <= WXYZ_RULES[1]
         :alive
+      else
+        :dead
       end
     else
-      if living_neighbors == 5
+      if WXYZ_RULES[2] <= living_neighbors && living_neighbors <= WXYZ_RULES[3]
         :alive
       else
         :dead
