@@ -8,7 +8,7 @@ class Space
   Y = 0
   Z = 0
 
-  WXYZ_RULES = [3, 4, 5, 6].freeze
+  WXYZ_RULES = [3, 3, 5, 6].freeze
   # WXYZ_RULES = [4, 5, 5, 5].freeze
   # WXYZ_RULES = [2, 3, 3, 4].freeze
   # WXYZ_RULES = [5, 7, 6, 6].freeze

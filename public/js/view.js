@@ -3,7 +3,7 @@ BGL.view = (function(THREE) {
 
 
   var DEFAULT_LAYERS = 10;
-  var DEFAULT_FILL_PERCENT = 50;
+  var DEFAULT_FILL_PERCENT = 60;
   var _stateButton, _resetButton;
   var _renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   var _cells = {};
