@@ -1,16 +1,22 @@
 BGL.cells = (function(THREE){
   'use strict';
 
-  var DEFAULT_COLOR = '#2196F3';
+  var COLORS = [
+    '#F44336', '#E91E63', '#9C27B0', '#673AB7',
+    '#3F51B5', '#2196F3', '#03A9F4', '#00BCD4',
+    '#009688', '#009688', '#8BC34A', '#CDDC39',
+    '#FFEB3B', '#FFC107', '#FF9800', '#FF5722'
+  ];
+  var colorIndex = 0;
   var _geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-  var _material = new THREE.MeshBasicMaterial({ color: DEFAULT_COLOR });
 
   var processCells = function(coordinates) {
+    var material = new THREE.MeshBasicMaterial({ color: nextColor() });
     var add = [];
     var remove = [];
     for (var key in coordinates) {
       if (coordinates[key] === 'true') {
-        add.push([key, create(key, coordinates[key])]);
+        add.push([key, create(key, coordinates[key], material)]);
       } else {
         remove.push(key);
       }
@@ -18,9 +24,16 @@ BGL.cells = (function(THREE){
     return [add, remove];
   };
 
-  var create = function(key) {
+  function nextColor() {
+    if (colorIndex >= COLORS.length) {
+      colorIndex = 0;
+    }
+    return COLORS[colorIndex++];
+  }
+
+  var create = function(key, coordinate, material) {
     var cell = parseCoordinates(key);
-    var cube = new THREE.Mesh(_geometry, _material);
+    var cube = new THREE.Mesh(_geometry, material);
     cube.position.x = cell.x;
     cube.position.y = cell.y;
     cube.position.z = cell.z;
@@ -42,6 +55,7 @@ BGL.cells = (function(THREE){
 
   return {
     processCells: processCells,
-    setColor: setColor
+    setColor: setColor,
+    nextColor: nextColor
   };
 }(THREE));
