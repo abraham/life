@@ -17,8 +17,8 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    rack (1.6.4)
-    rack-protection (1.5.3)
+    rack (1.6.9)
+    rack-protection (1.5.5)
       rack
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
@@ -54,9 +54,11 @@ PLATFORMS
 DEPENDENCIES
   faker
   pry
+  rack-protection (~> 1.5.4)
   rspec
   sinatra
   sinatra-websocket
+
 
 BUNDLED WITH
    1.11.2
