@@ -1,1 +1,2 @@
-2.5.0
+2.4.0
+# EventMachine currently has issues with 2.5.0
