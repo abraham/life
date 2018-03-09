@@ -1,7 +1,7 @@
 require 'sinatra'
 require 'sinatra-websocket'
 require 'json'
-require 'tilt/erubis'
+require 'tilt'
 require_relative 'lib/space'
 require_relative 'lib/cell'
 
